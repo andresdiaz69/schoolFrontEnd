@@ -1,0 +1,42 @@
+<div class="jumbotron text-center">
+    <p class="lead text-muted">Estudiantes</p>
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <button class="btn btn-success btn-block btn-cues" 
+                    routerLink ="/dashboard/students/new">NUEVO ESTUDIANTE</button>
+        </div>
+    </div>
+</div>
+<div class="text-center" style="margin-top: -30px;">
+    <app-loading *ngIf="loading"></app-loading>
+</div>
+<br><br><br>
+<table class="table sm table-over" *ngIf="listStudents.length > 0 && loading == false">
+    <thead>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Fecha de Nacimiento</th>
+        <th>Activo</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let student of listStudents">
+            <td>{{ student.name | uppercase }}</td>
+            <td>{{ student.lastName | uppercase }}</td>
+            <td>{{ student.dateOfBirth| date: 'dd/MM/yyyy' }}</td>
+            <td>{{ student.active }}</td>
+            <td>
+                <div class="float-rigth">
+                    <span class="material-icons edit-icon" routerLink="/dashboard/students/edit/{{ student.id }}">
+                        search
+                    </span>
+                    <span class="material-icons delete-icon" (click)="deleteStudent(student.id)">
+                        delete
+                    </span>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 *ngIf="listStudents.length == 0 && loading == false">No students to show</h3>

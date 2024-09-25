@@ -1,0 +1,33 @@
+<div class="text-center">
+    <app-loading *ngIf="loading"></app-loading>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 offset-lg-3">
+        <h3 class="text-center">Datos del Estudiante</h3>
+        <br>
+        <form [formGroup]="studentForm" (ngSubmit)="saveInfo()">
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Nombre Estudiante" formControlName="name">
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Apellido Estudiante" formControlName="lastName">
+            </div>
+            <div class="mb-3">
+                <select id="idGender" formControlName="idGender" class="form-select">
+                    <option *ngFor="let gender of genders" [value]="gender.id">{{ gender.name }}</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <input type="date" class="form-control" formControlName="dateOfBirth">
+            </div>
+            <div class="mb-3">
+                <input class="form-check-input" type="checkbox"  formControlName="active">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Activo
+                </label>
+            </div>
+            <button [disabled]="studentForm.invalid" class="btn btn-success float-right">Guardar</button>
+        </form>
+    </div>
+</div>
