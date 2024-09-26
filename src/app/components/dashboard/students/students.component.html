@@ -28,7 +28,7 @@
             <td>
                 <div class="float-rigth">
                     <span class="material-icons edit-icon" routerLink="/dashboard/students/edit/{{ student.id }}">
-                        search
+                        edit
                     </span>
                     <span class="material-icons delete-icon" (click)="deleteStudent(student.id)">
                         delete
@@ -39,4 +39,4 @@
     </tbody>
 </table>
 
-<h3 *ngIf="listStudents.length == 0 && loading == false">No students to show</h3>
+<h3 *ngIf="listStudents.length == 0 && loading == false">No hay estudiantes para mostrar</h3>

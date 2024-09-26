@@ -1,9 +1,7 @@
-export class Student {
+export class Teacher {
     id?: number;
     name: string;
     lastName: string;
     idGender: number;
-    dateOfBirth: Date;
     active: boolean;
-    selected: boolean;
 }

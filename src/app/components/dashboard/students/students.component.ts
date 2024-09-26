@@ -24,11 +24,10 @@ export class StudentsComponent implements OnInit{
     this.loading = true;
     this.studentService.getAllStudents().subscribe(data => {
       this.listStudents = data;
-      console.log(data);
       this.loading = false;
     }, error => {
       this.loading = false;
-      this.toastr.error('Error getting students'); //+ data.message
+      this.toastr.error('Error obteniendo estudiantes'); //+ data.message
     });
   }
 
@@ -40,7 +39,7 @@ export class StudentsComponent implements OnInit{
       this.toastr.success(data.message);
     }, error => {
       this.loading = false;
-      this.toastr.error('Error deleting student'); //+ data.message
+      this.toastr.error('Error eliminando estudiante'); //+ data.message
     });
   }
 

@@ -1,0 +1,36 @@
+<div class="text-center">
+    <app-loading *ngIf="loading"></app-loading>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 offset-lg-3">
+        <h3 class="text-center">Estudiantes del Curso</h3>
+        <br>
+        <form [formGroup]="gradeStudentsForm">
+            <div class="mb-3">
+                <label for="studentSelect">Seleccione un estudiante:</label>
+                <select id="studentSelect" class="form-control" formControlName="selectedStudent">
+                    <option *ngFor="let student of students" [value]="student.id">{{ student.name + ' ' + student.lastName }}</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <button (click)="addStudent()" class="btn btn-info float-right">Agregar estudiante a la lista</button>
+            </div>
+            <div class="mb-3">
+                <ul class="list-group mt-3">
+                    <li *ngFor="let student of addedStudents" class="list-group-item">
+                      <input class="form-check-input me-1" type="checkbox" value="" 
+                      (click)="removeStudentList( student.id )">
+                      <label class="form-check-label" for="firstCheckbox">{{ student.name + ' ' + student.lastName }}</label>
+                    </li>
+                  </ul>
+            </div>
+            <div class="mb-3">
+                <button (click)="removeStudent()" class="btn btn-danger float-right">Eliminar estudiantes seleccionados</button>
+            </div>
+            <div class="mb-3">
+                <button (click)="saveInfo()" class="btn btn-success float-right">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

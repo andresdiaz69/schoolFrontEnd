@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudentService } from 'src/app/services/student.service';
-import { Gender } from '../../../../models/gender';
-import { GenderService } from '../../../../services/gender.service';
 import { ToastrService } from 'ngx-toastr';
+import { Gender } from 'src/app/models/gender';
+import { Teacher } from 'src/app/models/teacher';
+import { GenderService } from 'src/app/services/gender.service';
+import { TeacherService } from 'src/app/services/teacher.service';
 
 @Component({
-  selector: 'app-newstudent',
-  templateUrl: './newstudent.component.html',
-  styleUrls: ['./newstudent.component.css'],
+  selector: 'app-newteacher',
+  templateUrl: './newteacher.component.html',
+  styleUrls: ['./newteacher.component.css']
 })
-export class NewstudentComponent implements OnInit {
-  studentForm: FormGroup;
-  studentId: number | null;
+export class NewteacherComponent implements OnInit {
+  teacherForm: FormGroup;
+  teacherId: number | null;
   isEditMode = false;
   genders: Gender[]  =  [];
   loading = false;
@@ -22,47 +23,44 @@ export class NewstudentComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private studentService: StudentService,
+    private teacherService: TeacherService,
     private genderService: GenderService,
     private toastr: ToastrService
   ) {
-    this.studentForm = this.fb.group({
+    this.teacherForm = this.fb.group({
       name: ['', Validators.required],
       lastName: ['', Validators.required],
       idGender: ['', Validators.required],
-      dateOfBirth: [Validators.required],
       active: [Validators.required]
     });
 
-    this.studentId = +this.route.snapshot.paramMap.get('id');
+    this.teacherId = +this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
     this.getGenders();
-    if (this.studentId) {
+    if (this.teacherId) {
       this.isEditMode = true;
-      this.loadStudentData();
+      this.loadTeacherData();
     }
   }
 
-  loadStudentData(): void {
+  loadTeacherData(): void {
     this.loading = true;
 
-    this.studentService
-        .getStudentById(this.studentId!)
+    this.teacherService
+        .getTeacherById(this.teacherId!)
         .subscribe(data => {
           this.loading = false;
-          const formattedDate = data.dateOfBirth ? new Date(data.dateOfBirth).toISOString().split('T')[0] : '';
 
-          this.studentForm.patchValue({
+          this.teacherForm.patchValue({
             name: data.name,
             lastName: data.lastName,
             idGender: data.idGender,
-            dateOfBirth: formattedDate,
             active: data.active
           });
         }, error => {
-          this.toastr.error('Error cargando info estudiante!', 'Error');
+          this.toastr.error('Error cargando info profesor!', 'Error');
           this.loading = false;
         });
   }
@@ -84,26 +82,26 @@ export class NewstudentComponent implements OnInit {
     this.loading = true;
 
     if (this.isEditMode) {
-      this.studentService
-        .updateStudent(this.studentId!, this.studentForm.value)
+      this.teacherService
+        .updateTeacher(this.teacherId!, this.teacherForm.value)
         .subscribe(data => {
-          this.toastr.success('Estudiante guardado OK');
-          this.router.navigate(['/dashboard']);
+          this.toastr.success('Profesor guardado OK');
+          this.router.navigate(['/dashboard/teachers']);
           this.loading = false;
         }, error => {
           this.toastr.error('Ocurrio un error!', 'Error');
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard/teachers']);
           this.loading = false;
         });
     } else {
-      this.studentService.saveStudent(this.studentForm.value)
+      this.teacherService.saveTeacher(this.teacherForm.value)
       .subscribe(data => {
-        this.toastr.success('Estudiante guardado OK');
-        this.router.navigate(['/dashboard']);
+        this.toastr.success('Profesor guardado OK');
+        this.router.navigate(['/dashboard/teachers']);
         this.loading = false;
       }, error => {
         this.toastr.error('Ocurrio un error!', 'Error');
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard/teachers']);
         this.loading = false;
       });
     }
